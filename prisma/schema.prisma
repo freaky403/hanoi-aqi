@@ -1,0 +1,42 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model stations {
+  id             BigInt                  @id @default(autoincrement())
+  name           String                  @db.VarChar(255)
+  latitude       String
+  longitude      String
+  locationId     String                  @unique
+  createdAt      DateTime?               @default(now())
+  updatedAt      DateTime?               @default(now()) @updatedAt
+  air_components air_component_station[]
+}
+
+model air_components {
+  id          BigInt                  @id @default(autoincrement())
+  name        String                  @unique @db.VarChar(20)
+  description String?                 @db.VarChar(255)
+  unit        String?                 @default("") @db.VarChar(15)
+  createdAt   DateTime?               @default(now())
+  updatedAt   DateTime?               @default(now()) @updatedAt
+  stations    air_component_station[]
+}
+
+model air_component_station {
+  id             BigInt         @id @default(autoincrement())
+  station        stations       @relation(fields: [stationId], references: [id])
+  air_component  air_components @relation(fields: [airComponentId], references: [id])
+  stationId      BigInt
+  airComponentId BigInt
+  data           Int            @default(0)
+  updatedAt      DateTime?
+}
