@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="icon" type="image/svg+xml" href="/vite.svg"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Ha Noi AQI</title>
+</head>
+<body>
+<div id="app" class="w-full min-h-screen flex">
+    <!-- Header -->
+    <header class="header fixed z-[99999] w-full h-[7rem] bg-white shadow-lg px-[3rem] flex items-center">
+        <nav>
+            <h1 class="app-logo text-[2.4rem]">HaNoi AQI</h1>
+        </nav>
+    </header>
+    <!-- End Header -->
+
+    <main class="w-full mx-[2rem] mt-[10rem] flex flex-col space-y-[4rem] mb-[4rem]">
+        <section class="w-full flex space-x-[3rem]">
+            <section class="flex flex-col space-y-[3rem] w-[calc(40%-3rem)]">
+                <!-- Select station -->
+                <div class="w-full">
+                    <label for="stations" class="block mb-2 font-medium text-gray-900 dark:text-white">Select an
+                        option</label>
+                    <select id="stations"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-full text-[1.6rem] cursor-pointer h-[4rem]">
+                        <option selected>Choose a station</option>
+                    </select>
+                </div>
+                <!-- End Select station -->
+
+                <!-- AQI card -->
+                <div class="w-[50rem] aqi-card bg-white p-8 rounded-3xl drop-shadow-md relative overflow-hidden">
+                    <div class="aqi-card-header flex flex-col space-y-[0.5rem]">
+                        <span class="aqi-card-header__title text-[2.4rem] font-medium truncate max-w-full">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae ex pharetra, luctus odio quis.</span>
+                        <span class="aqi-card-header__description text-[1.7rem] line-clamp-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae ex pharetra, luctus odio quis.</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <div class="flex flex-col space-y-[1.5rem]">
+                            <span class="aqi-card__updatedAt text-[1.4rem] font-light mt-[3rem] px-4 line-clamp-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae ex pharetra, luctus odio quis.</span>
+                            <span class="aqi-card__status font-bold bg-emerald-500 min-w-[10rem] max-w-[20rem] px-[3rem] py-2 text-white uppercase text-center rounded-full truncate">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae ex pharetra, luctus odio quis.</span>
+                        </div>
+                        <div class="flex">
+                            <div class="flex flex-col">
+                                <span class="aqi-card__value text-[7rem] font-bold text-emerald-500 tracking-wide truncate max-w-[15rem]">111</span>
+                                <span class="aqi-card__unit text-[1.4rem] font-medium text-right truncate max-w-[10rem]">(AQI-US)</span>
+                            </div>
+                            <div class="w-[8rem] h-[10rem] relative mt-auto">
+                                <img src="./src/assets/images/good.png" alt="Good aqi"
+                                     class="aqi-card__image absolute w-full h-full object-contain">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End AQI card -->
+
+                <!-- Major pollutants -->
+                <div class="major-pollutant bg-white p-8 rounded-3xl drop-shadow-md relative overflow-hidden h-[30rem]">
+                    <h2 class="text-[1.8rem] font-medium text-center">Major Air Pollutants</h2>
+                    <div class="major-pollutant-list grid grid-cols-3 grid-rows-2 place-items-center gap-6 mt-[2rem]">
+                        <div class="major-pollutant-list__item flex flex-col justify-center items-center">
+                            <div class="w-[4rem] h-[4rem] relative">
+                                <img src="./src/assets/images/pm2.5-icon.png" alt="PM2.5"
+                                     class="absolute w-full h-full object-contain">
+                            </div>
+                            <div>
+                                <span class="font-bold" id="pm25-value">1</span>
+                                <span class="text-[1.2rem]">(PM2.5)</span>
+                                <div class="w-full bg-gray-200 rounded-full h-1.5 mb-4 dark:bg-gray-700">
+                                    <div class="bg-green-400 h-1.5 rounded-full" style="width: 55%" id="pm25-prg"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="major-pollutants__item flex flex-col justify-center items-center">
+                            <div class="w-[4rem] h-[4rem] relative">
+                                <img src="./src/assets/images/pm10-icon.png" alt="PM10"
+                                     class="absolute w-full h-full object-contain">
+                            </div>
+                            <div>
+                                <span class="font-bold" id="pm10-value">1</span>
+                                <span class="text-[1.2rem]">(PM10)</span>
+                                <div class="w-full bg-gray-200 rounded-full h-1.5 mb-4 dark:bg-gray-700">
+                                    <div class="bg-green-400 h-1.5 rounded-full" style="width: 45%" id="pm10-prg"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="major-pollutants__item flex flex-col justify-center items-center">
+                            <div class="w-[4rem] h-[4rem] relative">
+                                <img src="./src/assets/images/so2.png" alt="Sulfur dioxide"
+                                     class="absolute w-full h-full object-contain">
+                            </div>
+                            <div>
+                                <span class="font-bold" id="so2-value">1</span>
+                                <span class="text-[1.2rem]">(SO2)</span>
+                                <div class="w-full bg-gray-200 rounded-full h-1.5 mb-4 dark:bg-gray-700">
+                                    <div class="bg-green-400 h-1.5 rounded-full" style="width: 45%" id="so2-prg"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="major-pollutants__item flex flex-col justify-center items-center">
+                            <div class="w-[4rem] h-[4rem] relative">
+                                <img src="./src/assets/images/CO.png" alt="Carbon monoxide"
+                                     class="absolute w-full h-full object-contain">
+                            </div>
+                            <div>
+                                <span class="font-bold" id="co-value">1</span>
+                                <span class="text-[1.2rem]">(CO)</span>
+                                <div class="w-full bg-gray-200 rounded-full h-1.5 mb-4 dark:bg-gray-700">
+                                    <div class="bg-green-400 h-1.5 rounded-full" style="width: 45%" id="co-prg"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="major-pollutants__item flex flex-col justify-center items-center">
+                            <div class="w-[4rem] h-[4rem] relative">
+                                <img src="./src/assets/images/o3.png" alt="Ozone"
+                                     class="absolute w-full h-full object-contain">
+                            </div>
+                            <div>
+                                <span class="font-bold" id="o3-value">1</span>
+                                <span class="text-[1.2rem]">(O3)</span>
+                                <div class="w-full bg-gray-200 rounded-full h-1.5 mb-4 dark:bg-gray-700">
+                                    <div class="bg-green-400 h-1.5 rounded-full" style="width: 45%" id="o3-prg"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="major-pollutants__item flex flex-col justify-center items-center">
+                            <div class="w-[4rem] h-[4rem] relative">
+                                <img src="./src/assets/images/no2.png" alt="Nitrogen dioxide"
+                                     class="absolute w-full h-full object-contain">
+                            </div>
+                            <div>
+                                <span class="font-bold" id="no2-value">1</span>
+                                <span class="text-[1.2rem]">(NO2)</span>
+                                <div class="w-full bg-gray-200 rounded-full h-1.5 mb-4 dark:bg-gray-700">
+                                    <div class="bg-green-400 h-1.5 rounded-full" style="width: 45%" id="no2-prg"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Major pollutants -->
+            </section>
+
+            <!-- Map -->
+            <section class="w-full rounded-lg overflow-hidden">
+                <div id="map" class="w-full h-full"></div>
+            </section>
+            <!-- End Map -->
+        </section>
+        <!-- Weather -->
+        <section class="mt-[2rem] flex justify-between space-x-[3rem]">
+            <div class="weather bg-white p-8 rounded-3xl drop-shadow-md relative overflow-hidden w-[calc(40%-3rem)]">
+                <h2 class="text-[1.8rem] font-medium text-center">Weather</h2>
+                <div class="flex flex-col space-y-[4rem] mt-[2rem]">
+                    <div class="w-full flex flex-col space-y-[0.5rem]">
+                        <span class="weather__location text-[1.8rem] font-bold truncate">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae ex pharetra, luctus odio quis.</span>
+                        <span class="weather__updatedAt font-light line-clamp-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae ex pharetra, luctus odio quis.</span>
+                        <div class="w-[10rem] h-[10rem] relative self-center">
+                            <img src="https://cdn.weatherapi.com/weather/64x64/day/113.png"
+                                 class="weather__icon absolute w-full h-full object-cover">
+                        </div>
+                        <div class="self-center flex flex-col justify-center items-center">
+                            <div>
+                                <span class="weather__condition font-medium">Sunny</span>
+                            </div>
+                            <span class="weather__temperature text-[6rem] font-medium">23</span>
+                            <span class="weather__feel_temperature text-[1.4rem] font-light">(Feel like: 26)</span>
+                        </div>
+                    </div>
+                    <div class="weather__content grid grid-cols-3 grid-rows-1 place-items-center gap-6">
+                        <div class="weather__content__item flex flex-col justify-center items-center">
+                            <span class="font-medium p-2">Humidity</span>
+                            <div class="w-[4rem] h-[4rem] relative">
+                                <img src="./src/assets/images/humidity.png" alt="Humidity"
+                                     class="absolute w-full h-full object-contain">
+                            </div>
+                            <div>
+                                <span class="font-bold" id="humidity-value">1</span>
+                                <span class="text-[1.2rem]">(%)</span>
+                            </div>
+                        </div>
+                        <div class="weather__content__item flex flex-col justify-center items-center">
+                            <span class="font-medium p-2">Wind</span>
+                            <div class="w-[4rem] h-[4rem] relative">
+                                <img src="./src/assets/images/wind.png" alt="Wind"
+                                     class="absolute w-full h-full object-contain">
+                            </div>
+                            <div>
+                                <span class="font-bold" id="wind-value">1</span>
+                                <span class="text-[1.2rem]">(km/h)</span>
+                            </div>
+                        </div>
+                        <div class="weather__content__item flex flex-col justify-center items-center">
+                            <span class="font-medium p-2">Pressure</span>
+                            <div class="w-[4rem] h-[4rem] relative">
+                                <img src="./src/assets/images/pressure.png" alt="Pressure"
+                                     class="absolute w-full h-full object-contain">
+                            </div>
+                            <div>
+                                <span class="font-bold" id="pressure-value">1</span>
+                                <span class="text-[1.2rem]">(hPa)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="historic-air-quality bg-white p-8 rounded-3xl drop-shadow-md relative overflow-hidden w-full">
+                <h2 class="text-[1.8rem] font-medium text-center">Historic Air Quality</h2>
+                <div class="flex flex-col space-y-[3rem]">
+                    <div class="flex space-x-[2rem] w-[30rem]">
+                        <select id="pollutants" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 text-[1.4rem] cursor-pointer">
+                            <option selected>Select an option</option>
+                        </select>
+                        <select id="time" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 text-[1.4rem] cursor-pointer">
+                            <option selected value="24h">24 Hour</option>
+                            <option value="week">Week</option>
+                        </select>
+                    </div>
+                    <div class="chart w-full h-full">
+                        <canvas id="historic-chart" class="max-w-full"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End Weather -->
+    </main>
+</div>
+<script type="module" src="/src/main.ts"></script>
+</body>
+</html>
